@@ -1,66 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ma Page HTML</title>
+    <title>Mon Site d'Articles</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
         }
 
-        header, footer {
+        header {
             background-color: #333;
             color: #fff;
             text-align: center;
-            padding: 10px;
+            padding: 1em 0;
         }
 
         nav {
-            background-color: #eee;
-            padding: 10px;
+            background-color: #444;
+            overflow: hidden;
+        }
+
+        nav a {
+            float: left;
+            display: block;
+            color: #fff;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background-color: #ddd;
+            color: #333;
         }
 
         section {
-            margin: 10px 0;
+            padding: 20px;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1em 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
     </style>
 </head>
-
 <body>
     <header>
-        <h1>Titre de ma page</h1>
+        <h1>Mon Site d'Articles</h1>
     </header>
 
     <nav>
-        <ul>
-            <li><a href="#">Accueil</a></li>
-            <li><a href="#">À propos</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
+        <a href="#">Accueil</a>
+        <a href="#">Voir les Articles</a>
+        <a href="#">À Propos</a>
+        <a href="#">Se Connecter / S'Inscrire</a>
     </nav>
 
     <section>
-        <h2>Section 1</h2>
-        <p>Ceci est un paragraphe dans la première section.</p>
-        <img src="https://via.placeholder.com/300" alt="Image de la section 1">
-    </section>
-
-    <section>
-        <h2>Section 2</h2>
-        <p>Un autre paragraphe intéressant dans la deuxième section.</p>
-        <ul>
-            <li>Point 1</li>
-            <li>Point 2</li>
-            <li>Point 3</li>
-        </ul>
+        <h2>Bienvenue sur notre site d'articles!</h2>
+        <p>Publiez vos articles et partagez vos connaissances avec le monde.</p>
     </section>
 
     <footer>
-        <p>© 2023 Ma Page HTML. Tous droits réservés.</p>
+        <p>&copy; 2023 Mon Site d'Articles. Tous droits réservés.</p>
     </footer>
 </body>
-
 </html>
