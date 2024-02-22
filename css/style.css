@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    padding: 28px 44px;
+    display: flex;
+    justify-content: center;
+    background-color: #111827;
+}
+
+.container {
+    max-width: 1264px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+section {
+    border-radius: 12px;
+    margin: 12px;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+nav section {
+    height: 60px;
+}
+
+nav .logo {
+    width: 188px;
+    background-color: #FF0000;
+}
+
+nav .search {
+    flex-grow: 1;
+    background-color: #1F2937;
+}
+
+nav .menu {
+    width: 120px;
+    background-color: #1F2937;
+}
+
+nav .user {
+    width: 120px;
+    background-color: #1F2937;
+}
+
+.filter {
+    height: 52px;
+    flex-grow: 1;
+    background-color: #1F2937;
+}
+
+
+.movies-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.movies-container section {
+    width: calc((100% - 144px)/6);
+    display: flex;
+    flex-direction: column;
+}
+
+.movies-container section .poster {
+    position: relative;
+    display: inline-block;
+}
+
+.movies-container section img {
+    display: block;
+    width: 100%;
+    
+    border-radius: 12px 12px 0 0;
+}
+
+.movies-container section .poster p {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: inline;
+    padding: 2px 6px;
+    margin: 0 8px 8px 0;
+    background-color: rgba(9, 9, 11, 0.6);
+    font-weight: medium;
+    font-size: 12px;
+    border-radius: 12px;
+    color: #ffffff;
+}
+
+.movies-container section .movie-infos {
+    height: 57px;
+    padding: 12px;
+}
+
+.movies-container section .movie-infos h1 {
+    font-size: 16px;
+    color: #ffffff;
+    margin-bottom: 4px;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.movies-container section .movie-infos p {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.5)
+}
+
+.movie-infos strong {
+    font-weight: 800;
+    font-size: 12px;
+}
+
+.green {
+    color: #047857;
+}
+
+.orange {
+    color: #FDBA74;
+}
+
+.red {
+    color: #B91C1C;
+}
+
+footer {
+    display: flex;
+    flex-direction: row;
+}
+
+footer section {
+    height: 60px;
+    background-color: #1F2937;
+}
+
+footer .loader {
+    width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loader img {
+    width: 45px;
+    height: 45px;
+}
+
+footer .legal {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+}
+
+.legal p {
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.legal p a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.legal p a:hover {
+    text-decoration: underline;
+}
