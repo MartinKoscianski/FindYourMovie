@@ -22,13 +22,13 @@ function loadMovie() {
         var color = 'red';
       }
 
-
       movie.innerHTML = `
         <div class="poster">
-          <img src="https://image.tmdb.org/t/p/w500/${data.imageUrl}" alt="${data.title}">
+          <img class="poster-img" src="https://image.tmdb.org/t/p/w500/${data.imageUrl}" alt="${data.title}">
           <p>${heuresFormatées + ':' + minutesFormatées}</p>
         </div>
         <div class="movie-infos">
+          <img src="https://image.tmdb.org/t/p/w500/${data.imageUrl}" alt="${data.title}">
           <h1>${data.title} <strong>(${data.releaseDate.substring(0, 4)})</strong></h1>
           <p>${data.director} • ${popularity}/10 <strong class="${color}">•</strong></p>
         </div>
@@ -36,6 +36,7 @@ function loadMovie() {
       movie.classList.add('film');
       container.appendChild(movie);
       displayedMovies.push(data.title);
+      
     } else {
       loadMovie();
     }
@@ -85,6 +86,7 @@ function loadMore() {
     }
     isLoading = false;
   }, 2300);
+  resizePoster();
 }
 
 window.addEventListener('scroll', () => {
@@ -95,12 +97,28 @@ window.addEventListener('scroll', () => {
   }
 });
 
-const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=fr&include_adult=false&page=1}`;
-const response = await axios.get(url);
-const data = response.data;
-console.log(data);
+function resizePoster() {
+  const posters = document.querySelectorAll('.poster img');
+  const posterWidth = posters[0].clientWidth;
+  posters.forEach(poster => {
+    poster.style.height = `${posterWidth * 1.5}px`;
+  });
+}
+
+window.addEventListener('resize', () => {
+  const posters = document.querySelectorAll('.poster img');
+  const posterWidth = posters[0].clientWidth;
+  posters.forEach(poster => {
+    poster.style.height = `${posterWidth * 1.5}px`;
+  });
+});
+
+
 
 // Initial load
 for (let i = 0; i < 24; i++) {
   loadMovie();
 }
+resizePoster();
+
+

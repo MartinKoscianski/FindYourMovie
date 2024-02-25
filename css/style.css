@@ -44,16 +44,91 @@ nav section {
 nav .logo {
     width: 188px;
     background-color: #FF0000;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+nav .logo .logo-text {
+    width: 100%;
+}
+
+nav .logo .logo-court {
+    width: 100%;
+    display: none;
+}
+
+@media (max-width: 768px) {
+    nav .logo {
+        width: 60px;
+        padding: 0 16px;
+    }
+
+    nav .logo .logo-text {
+        width: 100%;
+        display: none;
+    }
+    
+    nav .logo .logo-court {
+        width: 100%;
+        display: block;
+    }
+    
 }
 
 nav .search {
     flex-grow: 1;
     background-color: #1F2937;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 8px;
+}
+
+nav .search span {
+    color: #6B7280;
+    font-size: 20px;
+    font-weight: 500;
+    margin-right: 5px;
+}
+
+nav .search input {
+    width: 100%;
+    height: 100%;
+    background-color: #1F2937;
+    border: none;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+nav .search input::placeholder {
+    color: #6B7280;
+}
+
+nav .search input:focus::placeholder {
+    color: #ffffff;
+}
+
+nav .search input:focus {
+    outline: none;
 }
 
 nav .menu {
     width: 120px;
     background-color: #1F2937;
+    display: flex;
+    align-items: center;
+}
+
+nav .menu span {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0 19px;
+    display: flex;
+    align-items: center;
+
 }
 
 nav .user {
@@ -81,12 +156,30 @@ nav .user {
     flex-direction: column;
 }
 
+@media (max-width: 1024px) {
+    .movies-container section {
+        width: calc((100% - 96px)/4);
+    }
+}
+
+@media (max-width: 768px) {
+    .movies-container section {
+        width: calc((100% - 72px)/3);
+    }
+}
+
+@media (max-width: 480px) {
+    .movies-container section {
+        width: calc((100% - 48px)/2);
+    }
+}
+
 .movies-container section .poster {
     position: relative;
     display: inline-block;
 }
 
-.movies-container section img {
+.movies-container section .poster-img {
     display: block;
     width: 100%;
     
@@ -108,8 +201,15 @@ nav .user {
 }
 
 .movies-container section .movie-infos {
-    height: 57px;
-    padding: 12px;
+    height: 79px;
+    padding: 6px;    
+}
+
+.movies-container section .movie-infos img {
+    position: absolute;
+    height: 79px;
+    width: 150px;
+    filter: blur(56px);
 }
 
 .movies-container section .movie-infos h1 {
