@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
+
 * {
     margin: 0;
     padding: 0;
@@ -12,6 +13,11 @@ body {
     display: flex;
     justify-content: center;
     background-color: #111827;
+}
+@media (max-width: 768px) {
+    body {
+        padding: 10px 16px;
+    }
 }
 
 .container {
@@ -46,31 +52,29 @@ nav .logo {
     background-color: #FF0000;
     display: flex;
     align-items: center;
-    padding: 0 20px;
+    padding: 0 22px;
 }
 
-nav .logo .logo-text {
+nav .logo img {
     width: 100%;
+    display: block;
 }
 
 nav .logo .logo-court {
-    width: 100%;
     display: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     nav .logo {
         width: 60px;
-        padding: 0 16px;
+        padding: 0 18px;
     }
 
     nav .logo .logo-text {
-        width: 100%;
         display: none;
     }
     
     nav .logo .logo-court {
-        width: 100%;
         display: block;
     }
     
@@ -174,15 +178,20 @@ nav .user {
     }
 }
 
+.movies-container section:hover {
+    transform: scale(1.1);
+    transition: transform 600ms;
+
+}
+
 .movies-container section .poster {
     position: relative;
     display: inline-block;
 }
 
-.movies-container section .poster-img {
+.movies-container section .poster img {
     display: block;
     width: 100%;
-    
     border-radius: 12px 12px 0 0;
 }
 
@@ -201,23 +210,26 @@ nav .user {
 }
 
 .movies-container section .movie-infos {
-    height: 79px;
-    padding: 6px;    
-}
-
-.movies-container section .movie-infos img {
-    position: absolute;
-    height: 79px;
-    width: 150px;
-    filter: blur(56px);
+    height: 74px;
+    padding: 12px;
+    background-color: #1F2937;
+    border-radius: 0 0 12px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
 }
 
 .movies-container section .movie-infos h1 {
-    font-size: 16px;
+    font-size: 14px;
     color: #ffffff;
     margin-bottom: 4px;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 14px;
+    max-height: 40px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 .movies-container section .movie-infos p {
@@ -225,22 +237,7 @@ nav .user {
     color: rgba(255, 255, 255, 0.5)
 }
 
-.movie-infos strong {
-    font-weight: 800;
-    font-size: 12px;
-}
 
-.green {
-    color: #047857;
-}
-
-.orange {
-    color: #FDBA74;
-}
-
-.red {
-    color: #B91C1C;
-}
 
 footer {
     display: flex;

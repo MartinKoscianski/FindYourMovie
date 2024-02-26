@@ -1,11 +1,39 @@
-const apiKey = "86a1d264aff49d58b5d19eac7b08daa0";
+// Elements
 const container = document.querySelector('.movies-container');
+
+// API key
+const apiKey = "86a1d264aff49d58b5d19eac7b08daa0";
+
+// Variables
 let isLoading = false;
 let displayedMovies = [];
 
+// Functions
+function resizePosters() {
+  const posters = document.querySelectorAll('.poster img');
+  posters.forEach(poster => {
+    poster.style.height = poster.offsetWidth * 1.5 + 'px';
+  });
+}
+
+function loadMovies() {
+  for (let i = 0; i < 24; i++) {
+    loadMovie();
+  }
+}
+
+function loadMore() {
+  if (isLoading) return;
+  isLoading = true;
+  for (let i = 0; i < 24; i++) {
+    loadMovie();
+  }
+  isLoading = false;
+}
+
 function loadMovie() {
-  getRandomMovie().then(data => {
-    if (data && !displayedMovies.includes(data.title)) {
+  const data = getRandomMovie().then(data => {
+    if (data && !displayedMovies.includes(data.id)) {
       const movie = document.createElement('section');
 
       let heures = Math.floor(data.time / 60);
@@ -13,30 +41,22 @@ function loadMovie() {
       let heuresFormatées = ('0' + heures).slice(-2);
       let minutesFormatées = ('0' + minutesRestantes).slice(-2);
 
-      const popularity = (data.popularity/10).toFixed(1);
-      if (popularity >= 7.5) {
-        var color = 'green';
-      } else if (popularity >= 4) {
-        var color = 'orange';
-      } else { 
-        var color = 'red';
-      }
-
       movie.innerHTML = `
         <div class="poster">
-          <img class="poster-img" src="https://image.tmdb.org/t/p/w500/${data.imageUrl}" alt="${data.title}">
+          <img src="https://image.tmdb.org/t/p/w500/${data.imageUrl}" alt="${data.title}">
           <p>${heuresFormatées + ':' + minutesFormatées}</p>
         </div>
         <div class="movie-infos">
-          <img src="https://image.tmdb.org/t/p/w500/${data.imageUrl}" alt="${data.title}">
-          <h1>${data.title} <strong>(${data.releaseDate.substring(0, 4)})</strong></h1>
-          <p>${data.director} • ${popularity}/10 <strong class="${color}">•</strong></p>
+          <h1>${data.title}</h1>
+          <p>${data.releaseDate.substring(0, 4)} • ${data.director}</p>
         </div>
       `;
+
       movie.classList.add('film');
       container.appendChild(movie);
-      displayedMovies.push(data.title);
-      
+      displayedMovies.push(data.id);
+
+      resizePosters();
     } else {
       loadMovie();
     }
@@ -46,79 +66,51 @@ function loadMovie() {
 async function getRandomMovie() {
   try {
     const randomPage = Math.floor(Math.random() * 500) + 1;
-    const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=fr&include_adult=false&page=${randomPage}`;
+    const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=fr-FR&sort_by=popularity.desc&include_adult=false&include_video=false&page=${randomPage}`;
     const response = await axios.get(url);
-    const data = response.data;
+    const randomMovie = response.data.results[Math.floor(Math.random() * 20)];
 
-    const randomIndex = Math.floor(Math.random() * data.results.length);
-    const randomMovie = data.results[randomIndex];
+    const movieDetails = await axios.get(`https://api.themoviedb.org/3/movie/${randomMovie.id}?api_key=${apiKey}&language=fr-FR`);
+    const credits = await axios.get(`https://api.themoviedb.org/3/movie/${randomMovie.id}/credits?api_key=${apiKey}`);
 
-    const id = randomMovie.id;
-    const detailsUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=fr`;
-    const detailsResponse = await axios.get(detailsUrl);
-    const detailsData = detailsResponse.data;
+    if (!randomMovie.poster_path || randomMovie.title === movieDetails.data.original_title || randomMovie.adult || movieDetails.data.runtime < 60) {
+      return getRandomMovie();
+    }
 
-    const urlCast = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}&language=fr`;
-    const castResponse = await axios.get(urlCast);
-
-    const imageUrl = `https://image.tmdb.org/t/p/w500/${detailsData.poster_path}`;
+    let director = 'Réaliseur inconnu';
+    for (let i = 0; i < credits.data.crew.length; i++) {
+      if (credits.data.crew[i].job === 'Director') {
+        director = credits.data.crew[i].name;
+        break;
+      }
+    }
 
     return {
-      title: detailsData.title,
-      imageUrl: imageUrl,
-      time: detailsData.runtime,
-      popularity: detailsData.popularity,
-      releaseDate: detailsData.release_date,
-      director: castResponse.data.crew.find(member => member.job === 'Director').name
+      id: randomMovie.id, // Include movie ID for checking duplicates
+      title: randomMovie.title,
+      releaseDate: randomMovie.release_date,
+      imageUrl: randomMovie.poster_path,
+      time: movieDetails.data.runtime,
+      director: director
     };
-
   } catch (error) {
-    console.error("Erreur de requête :", error.message);
+    console.error(error);
     return null;
   }
 }
 
-function loadMore() {
-  isLoading = true;
-  setTimeout(() => {
-    for (let i = 0; i < 24; i++) {
-      loadMovie();
-    }
-    isLoading = false;
-  }, 2300);
-  resizePoster();
-}
-
+// Events
 window.addEventListener('scroll', () => {
   if (isLoading) return;
 
-  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 94) {
     loadMore();
   }
 });
 
-function resizePoster() {
-  const posters = document.querySelectorAll('.poster img');
-  const posterWidth = posters[0].clientWidth;
-  posters.forEach(poster => {
-    poster.style.height = `${posterWidth * 1.5}px`;
-  });
-}
-
 window.addEventListener('resize', () => {
-  const posters = document.querySelectorAll('.poster img');
-  const posterWidth = posters[0].clientWidth;
-  posters.forEach(poster => {
-    poster.style.height = `${posterWidth * 1.5}px`;
-  });
+  resizePosters();
 });
 
-
-
 // Initial load
-for (let i = 0; i < 24; i++) {
-  loadMovie();
-}
-resizePoster();
-
-
+loadMovies();
