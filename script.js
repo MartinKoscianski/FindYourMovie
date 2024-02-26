@@ -34,7 +34,8 @@ function loadMore() {
 function loadMovie() {
   const data = getRandomMovie().then(data => {
     if (data && !displayedMovies.includes(data.id)) {
-      const movie = document.createElement('section');
+      const movie = document.createElement('a');
+      movie.href = `./movie/${data.id}`;
 
       let heures = Math.floor(data.time / 60);
       let minutesRestantes = data.time % 60;
@@ -86,7 +87,7 @@ async function getRandomMovie() {
     }
 
     return {
-      id: randomMovie.id, // Include movie ID for checking duplicates
+      id: randomMovie.id,
       title: randomMovie.title,
       releaseDate: randomMovie.release_date,
       imageUrl: randomMovie.poster_path,
