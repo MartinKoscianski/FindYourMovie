@@ -52,22 +52,30 @@ nav .logo {
     background-color: #FF0000;
     display: flex;
     align-items: center;
-    padding: 0 22px;
+    justify-content: center;
 }
 
 nav .logo img {
-    width: 100%;
-    display: block;
+    width: 144px;
+    min-width: 144 px;
 }
 
 nav .logo .logo-court {
     display: none;
 }
 
+nav .logo .logo-text {
+    display: block;
+}
+
 @media (max-width: 900px) {
     nav .logo {
         width: 60px;
-        padding: 0 18px;
+    }
+
+    nav .logo img {
+        width: 24px;
+        min-width: 24px;
     }
 
     nav .logo .logo-text {
@@ -85,7 +93,7 @@ nav .search {
     background-color: #1F2937;
     display: flex;
     align-items: center;
-    padding: 0 16px;
+    padding: 0 0 0 16px;
     gap: 8px;
 }
 
@@ -108,6 +116,7 @@ nav .search input {
     color: #ffffff;
     font-size: 16px;
     font-weight: 400;
+    border-radius: 0 12px 12px 0;
 }
 
 nav .search input::placeholder {
@@ -120,16 +129,6 @@ nav .search input:focus::placeholder {
 
 nav .search input:focus {
     outline: none;
-}
-
-@media (max-width: 580px) {
-    nav .search {
-        width: 60px;
-    }
-
-    nav .search input {
-        display: none;
-    }
 }
 
 nav .menu {
@@ -156,6 +155,30 @@ nav .menu span {
     }
 }
 
+nav .menu-deroulant {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    background-color: #1F2937;
+}
+
+@media (min-width: 580px) {
+    nav .menu-deroulant {
+        display: none;
+    }
+}
+
+.menu-deroulant span {
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 500;
+    margin: 0 19px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
 nav .user {
     width: 120px;
     background-color: #1F2937;
@@ -163,6 +186,30 @@ nav .user {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+}
+
+nav .user .menu-icon {
+    display: none;
+}
+
+nav .user .notif-icon {
+    display: block;
+}
+
+@media (max-width: 580px) {
+    nav .user {
+        display: none;
+    }
+}
+
+@media (max-width: 720px) {
+    nav .user .menu-icon {
+        display: block;
+    }
+
+    nav .user .notif-icon {
+        display: none;
+    }
 }
 
 .user span {
@@ -316,12 +363,25 @@ footer .legal {
 .legal p {
     font-size: 16px;
     color: #ffffff;
-    max-width: 100px;
 }
 
 .legal p a {
     color: #ffffff;
     text-decoration: none;
+}
+
+.legal .small-legal {
+    display: none;
+}
+
+@media (max-width: 688px) {
+    .legal p {
+        display: none;
+    }
+
+    .legal .small-legal {
+        display: block;
+    }  
 }
 
 .legal p a:hover {
