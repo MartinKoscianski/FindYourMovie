@@ -7,6 +7,11 @@ const apiKey = "86a1d264aff49d58b5d19eac7b08daa0";
 // Variables
 let isLoading = false;
 let displayedMovies = [];
+let filters = {
+  global_filters: "all-global",
+  genre_filters: "all-genre"
+}
+
 
 // Functions
 function resizePosters() {
@@ -45,7 +50,7 @@ function loadMovie() {
       movie.innerHTML = `
         <div class="poster">
           <img src="https://image.tmdb.org/t/p/w500/${data.imageUrl}" alt="${data.title}">
-          <p>${heuresFormatées + ':' + minutesFormatées}</p>
+          <p>${heuresFormatées + ':' + minutesFormatées}:00</p>
         </div>
         <div class="movie-infos">
           <h1>${data.title}</h1>
@@ -111,7 +116,27 @@ window.addEventListener('scroll', () => {
 
 window.addEventListener('resize', () => {
   resizePosters();
+  if (window.innerWidth > 768) {
+    document.querySelector('.menu-mobile').classList.remove('visible');
+  }
 });
+
+document.querySelectorAll('.menu-button').forEach(button => {
+  button.addEventListener('click', () => {
+    document.querySelector('.menu-mobile').classList.toggle('visible');
+  });
+});
+
+document.querySelectorAll('button').forEach(button => {
+  button.addEventListener('click', () => {
+    const parentClass = button.parentNode.classList.item(0);
+    document.querySelector("." + filters[parentClass]).classList.remove('active');
+    filters[parentClass] = button.classList.item(0);
+    button.classList.add('active');
+    console.log(filters);
+  });
+});
+
 
 // Initial load
 loadMovies();

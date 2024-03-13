@@ -12,9 +12,9 @@
             <header>
                 <nav>
                     <section class="logo">
-                        <a href="./index.html">
-                            <img class="logo-text" src="images/logo-text.svg" alt="Logo FindYourMovie">
-                            <img class="logo-court" src="images/logo-court.svg" alt="Logo FindYourMovie">
+                        <a href="./">
+                            <img class="logo-desktop" src="images/logo-text.svg" alt="Logo FindYourMovie">
+                            <img class="logo-mobile" src="images/logo-court.svg" alt="Logo FindYourMovie">
                         </a>
                     </section>
                     <section class="search">
@@ -22,20 +22,54 @@
                         <input type="text" placeholder="Rechercher...">
                     </section>
                     <section class="menu">
-                        <span class="material-symbols-outlined">star</span>
-                        <span class="material-symbols-outlined">favorite</span>
+                        <a href="./"><span class="material-symbols-outlined look-button">star</span></a>
+                        <a href="./"><span class="material-symbols-outlined favorite-button">favorite</span></a>
                     </section>
-                    <section class="menu-deroulant">
-                        <span class="material-symbols-outlined menu-icon">menu</span>
+                    <section class="solo-menu">
+                        <span class="material-symbols-outlined menu-button">menu</span>
                     </section>
                     <section class="user">
-                        <span class="material-symbols-outlined menu-icon">menu</span>
-                        <span class="material-symbols-outlined notif-icon">notifications</span>
-                        <img src="./images/avatar.svg" alt="Avatar">
+                        <span class="material-symbols-outlined menu-button">menu</span>
+                        <a href="./"><span class="material-symbols-outlined notif-button">notifications</span></a>
+                        <a href="./" class="a-avatar"><img src="./images/avatar.svg" alt="Avatar"></a>
                     </section>
                 </nav>
+                <section class="menu-mobile">
+                    <a href="./"><span class="material-symbols-outlined look-button">star</span>Films à voir</a>
+                    <a href="./"><span class="material-symbols-outlined favorite-button">favorite</span>Films vu</a>
+                    <a href="./"><span class="material-symbols-outlined menu-button">notifications</span>Notifications</a>
+                    <a href="./"><span class="material-symbols-outlined notif-button">account_circle</span>Compte</a>
+                </section>
                 <section class="filter">
-
+                    <div class="global_filters">
+                        <button class="all-global active">Tous</button>
+                        <button class="popular">Populaires</button>
+                        <button class="new">Nouveautés</button>
+                        <button class="come">A venir</button>
+                    </div>
+                    <p>|</p>
+                    <div class="genre_filters">
+                        <button class="all-genre active">Tous</button>
+                        <button class="action">Action</button>
+                        <button class="aventure">Aventure</button>
+                        <button class="animation">Animation</button>
+                        <button class="comedie">Comédie</button>
+                        <button class="crime">Crime</button>
+                        <button class="documentaire">Documentaire</button>
+                        <button class="drame">Drame</button>
+                        <button class="familial">Familial</button>
+                        <button class="fantastique">Fantastique</button>
+                        <button class="histoire">Histoire</button>
+                        <button class="horreur">Horreur</button>
+                        <button class="musique">Musique</button>
+                        <button class="mystere">Mystère</button>
+                        <button class="romance">Romance</button>
+                        <button class="sciencefiction">Science-Fiction</button>
+                        <button class="telefilm">Téléfilm</button>
+                        <button class="thriller">Thriller</button>
+                        <button class="guerre">Guerre</button>
+                        <button class="western">Western</button>
+                    </div>
                 </section>
             </header>
             <div class="movies-container">
