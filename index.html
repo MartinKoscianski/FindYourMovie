@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
         <link rel="stylesheet" href="css/style.css">
         <title>FindYourMovie » Accueil</title>
+        <link rel="icon" type="image/png" href="images/logo-court.svg" />
     </head>
     <body>
         <div class="container">
@@ -41,15 +42,7 @@
                     <a href="./"><span class="material-symbols-outlined notif-button">account_circle</span>Compte</a>
                 </section>
                 <section class="filter">
-                    <div class="global_filters">
-                        <button class="all-global active">Tous</button>
-                        <button class="popular">Populaires</button>
-                        <button class="new">Nouveautés</button>
-                        <button class="come">A venir</button>
-                    </div>
-                    <p>|</p>
-                    <div class="genre_filters">
-                        <button class="all-genre active">Tous</button>
+                        <button class="all active">Tous</button>
                         <button class="action">Action</button>
                         <button class="aventure">Aventure</button>
                         <button class="animation">Animation</button>
@@ -64,16 +57,14 @@
                         <button class="musique">Musique</button>
                         <button class="mystere">Mystère</button>
                         <button class="romance">Romance</button>
-                        <button class="sciencefiction">Science-Fiction</button>
+                        <button class="science-fiction">Science-Fiction</button>
                         <button class="telefilm">Téléfilm</button>
                         <button class="thriller">Thriller</button>
                         <button class="guerre">Guerre</button>
                         <button class="western">Western</button>
-                    </div>
                 </section>
             </header>
-            <div class="movies-container">
-            </div>
+            <div class="movies-container"></div>
             <footer>
                 <section class="loader">
                     <img src="images/loader.gif" alt="Loader">
@@ -86,6 +77,6 @@
             </footer>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script type="module" src="script.js"></script>
+        <script src="./script.js"></script>
     </body>
 </html>

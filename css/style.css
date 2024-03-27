@@ -304,22 +304,10 @@ nav .user .a-avatar {
     height: 52px;
     flex-grow: 1;
     background-color: #1F2937;
-    display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 0 12px;
+    padding: 11px 12px;
     overflow: overlay;
     scrollbar-width: none;
-    gap: 10px;
-}
-
-.filter p {
-    color: white;
-    font-size: 16px;
-    font-weight: 500;
-}
-
-.filter div {
     display: flex;
     align-items: center;
     gap: 10px;

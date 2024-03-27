@@ -7,9 +7,28 @@ const apiKey = "86a1d264aff49d58b5d19eac7b08daa0";
 // Variables
 let isLoading = false;
 let displayedMovies = [];
-let filters = {
-  global_filters: "all-global",
-  genre_filters: "all-genre"
+let filters = "all";
+
+const correspondances = {
+  "action": "28",
+  "aventure": "12",
+  "animation": "16",
+  "comedie": "35",
+  "crime": "80",
+  "documentaire": "99",
+  "drame": "18",
+  "famille": "10751",
+  "fantastique": "14",
+  "histoire": "36",
+  "horreur": "27",
+  "musique": "10402",
+  "mystere": "9648",
+  "romance": "10749",
+  "science-fiction": "878",
+  "telefilm": "10770",
+  "thriller": "53",
+  "guerre": "10752",
+  "western": "37"
 }
 
 
@@ -34,6 +53,14 @@ function loadMore() {
     loadMovie();
   }
   isLoading = false;
+}
+
+function filtersChange() {
+  displayedMovies = [];
+  container.innerHTML = "";
+  for (let i = 0; i < 24; i++) {
+    loadMovie();
+  }
 }
 
 function loadMovie() {
@@ -72,7 +99,12 @@ function loadMovie() {
 async function getRandomMovie() {
   try {
     const randomPage = Math.floor(Math.random() * 500) + 1;
-    const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=fr-FR&sort_by=popularity.desc&include_adult=false&include_video=false&page=${randomPage}`;
+    
+    if (filters === "all") {
+      const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=fr-FR&sort_by=popularity.desc&include_adult=false&include_video=false&page=${randomPage}`;
+    } else {
+      const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=fr-FR&sort_by=popularity.desc&include_adult=false&include_video=false&page=${randomPage}&with_genres=${correspondances[filters]}`;
+    }
     const response = await axios.get(url);
     const randomMovie = response.data.results[Math.floor(Math.random() * 20)];
 
@@ -129,11 +161,11 @@ document.querySelectorAll('.menu-button').forEach(button => {
 
 document.querySelectorAll('button').forEach(button => {
   button.addEventListener('click', () => {
-    const parentClass = button.parentNode.classList.item(0);
-    document.querySelector("." + filters[parentClass]).classList.remove('active');
-    filters[parentClass] = button.classList.item(0);
+    document.querySelector('.' + filters).classList.remove('active');
+    filters = button.classList.item(0);
     button.classList.add('active');
     console.log(filters);
+    filtersChange();
   });
 });
 
