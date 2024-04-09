@@ -8,27 +8,28 @@ const apiKey = "86a1d264aff49d58b5d19eac7b08daa0";
 let isLoading = false;
 let displayedMovies = [];
 let filters = "all";
+let crash = 0;
 
 const correspondances = {
-  "action": "28",
-  "aventure": "12",
-  "animation": "16",
-  "comedie": "35",
-  "crime": "80",
-  "documentaire": "99",
-  "drame": "18",
-  "famille": "10751",
-  "fantastique": "14",
-  "histoire": "36",
-  "horreur": "27",
-  "musique": "10402",
-  "mystere": "9648",
-  "romance": "10749",
-  "science-fiction": "878",
-  "telefilm": "10770",
-  "thriller": "53",
-  "guerre": "10752",
-  "western": "37"
+  "action": 28,
+  "aventure": 12,
+  "animation": 16,
+  "comedie": 35,
+  "crime": 80,
+  "documentaire": 99,
+  "drame": 18,
+  "famille": 10751,
+  "fantastique": 14,
+  "histoire": 36,
+  "horreur": 27,
+  "musique": 10402,
+  "mystere": 9648,
+  "romance": 10749,
+  "science-fiction": 878,
+  "telefilm": 10770,
+  "thriller": 53,
+  "guerre": 10752,
+  "western": 37
 }
 
 
@@ -41,9 +42,11 @@ function resizePosters() {
 }
 
 function loadMovies() {
+  isLoading = true;
   for (let i = 0; i < 24; i++) {
     loadMovie();
   }
+  isLoading = false;
 }
 
 function loadMore() {
@@ -56,11 +59,13 @@ function loadMore() {
 }
 
 function filtersChange() {
+  isLoading = true;
   displayedMovies = [];
   container.innerHTML = "";
   for (let i = 0; i < 24; i++) {
     loadMovie();
   }
+  isLoading = false;
 }
 
 function loadMovie() {
@@ -91,6 +96,13 @@ function loadMovie() {
 
       resizePosters();
     } else {
+      crash += 1;
+      console.log(crash)
+      if (crash > 100) {
+        console.log('Erreur lors du chargement des films. Veuillez réessayer.');
+        isLoading = true;
+        return;
+      }
       loadMovie();
     }
   });
@@ -98,13 +110,18 @@ function loadMovie() {
 
 async function getRandomMovie() {
   try {
-    const randomPage = Math.floor(Math.random() * 500) + 1;
-    
-    if (filters === "all") {
-      const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=fr-FR&sort_by=popularity.desc&include_adult=false&include_video=false&page=${randomPage}`;
-    } else {
-      const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=fr-FR&sort_by=popularity.desc&include_adult=false&include_video=false&page=${randomPage}&with_genres=${correspondances[filters]}`;
+    let randomPage;
+    let url;
+    if( filters === "all") {
+      randomPage = Math.floor(Math.random() * 500) + 1;
+      url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=fr-FR&sort_by=popularity.desc&include_adult=false&include_video=false&page=${randomPage}`;
     }
+    
+    if (filters !== "all") {
+      randomPage = Math.floor(Math.random() * 300) + 1;
+      url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=fr-FR&sort_by=popularity.desc&include_adult=false&include_video=false&page=${randomPage}&with_genres=${correspondances[filters]}`;
+    }
+    console.log(url);
     const response = await axios.get(url);
     const randomMovie = response.data.results[Math.floor(Math.random() * 20)];
 
@@ -140,7 +157,6 @@ async function getRandomMovie() {
 // Events
 window.addEventListener('scroll', () => {
   if (isLoading) return;
-
   if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 94) {
     loadMore();
   }
@@ -164,7 +180,6 @@ document.querySelectorAll('button').forEach(button => {
     document.querySelector('.' + filters).classList.remove('active');
     filters = button.classList.item(0);
     button.classList.add('active');
-    console.log(filters);
     filtersChange();
   });
 });
