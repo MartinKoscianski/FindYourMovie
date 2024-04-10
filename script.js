@@ -73,11 +73,10 @@ function filtersChange() {
 function refresh() {
   const loader = document.querySelector('.loader');
   loader.style.display = 'flex';
-  isLoading = true;
   displayedMovies.map(movie => {
     loadMovies(movie);
   });
-  isLoading = false;
+  search_mode = false;
 }
 
 function loadMovie(id=false) {
@@ -147,7 +146,7 @@ async function getRandomMovie(id) {
 
 
     if (!movieDetails.data.poster_path || movieDetails.data.title === movieDetails.data.original_title || movieDetails.data.adult || movieDetails.data.runtime < 60) {
-      return getRandomMovie();
+      return getRandomMovie(id===false ? false : id);
     }
 
     let director = 'Réaliseur inconnu';
@@ -173,7 +172,30 @@ async function getRandomMovie(id) {
 }
 
 function searchInDB(text) {
-  console.log(text);
+  crash = 0;
+  container.innerHTML = "";
+  console.log(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=fr-FR&query=${encodeURIComponent(text)}&page=1&include_adult=false`);
+  try {
+    axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=fr-FR&query=${encodeURIComponent(text)}&page=1&include_adult=false`).then(response => {
+    console.log(response.data.results);  
+    if(response.data.results.length === 0) {
+        const noResult = document.createElement('div');
+        noResult.classList.add('no-result');
+        noResult.innerHTML = `
+          <h1>Aucun résultat trouvé</h1>
+        `;
+        container.appendChild(noResult);
+      } else {
+        response.data.results.map(movie => {
+          loadMovie(movie.id);
+        });
+      }
+    }).catch(error => {
+      console.error(error);
+    });
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 // Events
@@ -212,7 +234,6 @@ document.querySelector('.search input').addEventListener('input', (e) => {
   if(search === "") {
     if(search_mode) {
       refresh();
-      search_mode = false;
     }
   } else {
     if(!search_mode) {
