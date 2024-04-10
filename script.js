@@ -9,6 +9,7 @@ let isLoading = false;
 let displayedMovies = [];
 let filters = "all";
 let crash = 0;
+let search_mode = false;
 
 const correspondances = {
   "action": 28,
@@ -52,6 +53,7 @@ function loadMovies() {
 function loadMore() {
   if (isLoading) return;
   isLoading = true;
+  crash = 0;
   for (let i = 0; i < 24; i++) {
     loadMovie();
   }
@@ -68,11 +70,21 @@ function filtersChange() {
   isLoading = false;
 }
 
-function loadMovie() {
-  const data = getRandomMovie().then(data => {
+function refresh() {
+  const loader = document.querySelector('.loader');
+  loader.style.display = 'flex';
+  isLoading = true;
+  displayedMovies.map(movie => {
+    loadMovies(movie);
+  });
+  isLoading = false;
+}
+
+function loadMovie(id=false) {
+  const data = getRandomMovie(id).then(data => {
     if (data && !displayedMovies.includes(data.id)) {
       const movie = document.createElement('a');
-      movie.href = `./movie/${data.id}`;
+      movie.href = `./movie?id=${data.id}`;
 
       let heures = Math.floor(data.time / 60);
       let minutesRestantes = data.time % 60;
@@ -97,7 +109,6 @@ function loadMovie() {
       resizePosters();
     } else {
       crash += 1;
-      console.log(crash)
       if (crash > 100) {
         console.log('Erreur lors du chargement des films. Veuillez réessayer.');
         isLoading = true;
@@ -108,27 +119,34 @@ function loadMovie() {
   });
 }
 
-async function getRandomMovie() {
+async function getRandomMovie(id) {
   try {
-    let randomPage;
-    let url;
-    if( filters === "all") {
-      randomPage = Math.floor(Math.random() * 500) + 1;
-      url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=fr-FR&sort_by=popularity.desc&include_adult=false&include_video=false&page=${randomPage}`;
-    }
-    
-    if (filters !== "all") {
-      randomPage = Math.floor(Math.random() * 300) + 1;
-      url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=fr-FR&sort_by=popularity.desc&include_adult=false&include_video=false&page=${randomPage}&with_genres=${correspondances[filters]}`;
-    }
-    console.log(url);
-    const response = await axios.get(url);
-    const randomMovie = response.data.results[Math.floor(Math.random() * 20)];
+    let movieDetails;
+    let credits;
+    if(id === false) {
+      let randomPage;
+      let url;
+      if( filters === "all") {
+        randomPage = Math.floor(Math.random() * 500) + 1;
+        url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=fr-FR&sort_by=popularity.desc&include_adult=false&include_video=false&page=${randomPage}`;
+      }
+      
+      if (filters !== "all") {
+        randomPage = Math.floor(Math.random() * 300) + 1;
+        url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=fr-FR&sort_by=popularity.desc&include_adult=false&include_video=false&page=${randomPage}&with_genres=${correspondances[filters]}`;
+      }
+      const response = await axios.get(url);
+      const randomMovie = response.data.results[Math.floor(Math.random() * 20)];
 
-    const movieDetails = await axios.get(`https://api.themoviedb.org/3/movie/${randomMovie.id}?api_key=${apiKey}&language=fr-FR`);
-    const credits = await axios.get(`https://api.themoviedb.org/3/movie/${randomMovie.id}/credits?api_key=${apiKey}`);
+      movieDetails = await axios.get(`https://api.themoviedb.org/3/movie/${randomMovie.id}?api_key=${apiKey}&language=fr-FR`);
+      credits = await axios.get(`https://api.themoviedb.org/3/movie/${randomMovie.id}/credits?api_key=${apiKey}`);
+    } else {
+      movieDetails = await axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=fr-FR`);
+      credits = await axios.get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}`);
+    }
 
-    if (!randomMovie.poster_path || randomMovie.title === movieDetails.data.original_title || randomMovie.adult || movieDetails.data.runtime < 60) {
+
+    if (!movieDetails.data.poster_path || movieDetails.data.title === movieDetails.data.original_title || movieDetails.data.adult || movieDetails.data.runtime < 60) {
       return getRandomMovie();
     }
 
@@ -141,10 +159,10 @@ async function getRandomMovie() {
     }
 
     return {
-      id: randomMovie.id,
-      title: randomMovie.title,
-      releaseDate: randomMovie.release_date,
-      imageUrl: randomMovie.poster_path,
+      id: movieDetails.data.id,
+      title: movieDetails.data.title,
+      releaseDate: movieDetails.data.release_date,
+      imageUrl: movieDetails.data.poster_path,
       time: movieDetails.data.runtime,
       director: director
     };
@@ -154,9 +172,13 @@ async function getRandomMovie() {
   }
 }
 
+function searchInDB(text) {
+  console.log(text);
+}
+
 // Events
 window.addEventListener('scroll', () => {
-  if (isLoading) return;
+  if (isLoading || search_mode) return;
   if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 94) {
     loadMore();
   }
@@ -177,12 +199,35 @@ document.querySelectorAll('.menu-button').forEach(button => {
 
 document.querySelectorAll('button').forEach(button => {
   button.addEventListener('click', () => {
+    if(search_mode) return;
     document.querySelector('.' + filters).classList.remove('active');
     filters = button.classList.item(0);
     button.classList.add('active');
     filtersChange();
   });
 });
+
+document.querySelector('.search input').addEventListener('input', (e) => {
+  const search = e.target.value;
+  if(search === "") {
+    if(search_mode) {
+      refresh();
+      search_mode = false;
+    }
+  } else {
+    if(!search_mode) {
+      search_mode = true;
+      container.innerHTML = "";
+      const loader = document.querySelector('.loader');
+      loader.style.display = 'none';
+
+      searchInDB(search);
+    } else {
+      searchInDB(search);
+    }
+  }
+});
+
 
 
 // Initial load
