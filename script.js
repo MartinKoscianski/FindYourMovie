@@ -71,6 +71,7 @@ function filtersChange() {
 }
 
 function refresh() {
+  container.innerHTML = "";
   const loader = document.querySelector('.loader');
   loader.style.display = 'flex';
   displayedMovies.map(movie => {
@@ -146,7 +147,7 @@ async function getRandomMovie(id) {
 
 
     if (!movieDetails.data.poster_path || movieDetails.data.title === movieDetails.data.original_title || movieDetails.data.adult || movieDetails.data.runtime < 60) {
-      return getRandomMovie(id===false ? false : id);
+      return getRandomMovie(id);
     }
 
     let director = 'Réaliseur inconnu';
@@ -174,7 +175,6 @@ async function getRandomMovie(id) {
 function searchInDB(text) {
   crash = 0;
   container.innerHTML = "";
-  console.log(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=fr-FR&query=${encodeURIComponent(text)}&page=1&include_adult=false`);
   try {
     axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=fr-FR&query=${encodeURIComponent(text)}&page=1&include_adult=false`).then(response => {
     console.log(response.data.results);  
@@ -248,7 +248,6 @@ document.querySelector('.search input').addEventListener('input', (e) => {
     }
   }
 });
-
 
 
 // Initial load
