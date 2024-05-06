@@ -160,7 +160,7 @@ nav .search input:focus::placeholder {
 
 
 /* ----- Menu ----- */
-nav .menu {
+.menu {
     width: 112px;
     display: flex;
     align-items: center;
@@ -173,11 +173,11 @@ nav .menu {
     }
 }
 
-nav .menu a {
+.menu a {
     height: 22px;
 }
 
-nav .menu span {
+.menu span {
     color: #ffffff;
     font-size: 22px;
 }
@@ -374,7 +374,7 @@ nav .user .a-avatar {
 }
 
 .movies-container a:hover {
-    transform: scale(1.1);
+    transform: scale(1.075);
     transition: transform 600ms;
 
 }
@@ -491,4 +491,138 @@ footer .legal {
 
 .legal p a:hover {
     text-decoration: underline;
+}
+
+
+/* ----- Movie Info ----- */
+
+.no-iframe {
+    display: flex;
+    flex-direction: row;
+}
+
+.infos {
+    width: 100%;
+}
+
+.i-poster {
+    width: 50%;
+    max-width: 500px;
+    display: flex;
+}
+
+.i-poster img {
+    width: 100%;
+    border-radius: 12px;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+}
+
+.title h1 {
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: 400;
+    margin: 0;
+}
+
+.date-director, .time, .genres {
+    height: 28px;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    min-height: 32px;
+}
+
+.date-director p, .time p, .genres p {
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: 400;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.date-director {
+    flex-grow: 1;
+}
+
+.genres {
+    flex-grow: 2;
+}
+
+.star-favorite {
+    height: 28px;
+}
+
+.trailer {
+    display: flex;
+}
+
+.trailer iframe {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+}
+
+hr {
+    border: 0;
+    height: 2px;
+    width: calc(100% - 24px);
+    margin: 12px;
+    border-radius: 12px;
+    background-color: #ffffff;
+}
+
+.infos-details {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.t-desk {
+    display: none;
+}
+
+.sinopsis {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sinopsis p {
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: 400;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.no-trailer {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.no-trailer p {
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: 400;
+    margin: 0;
+    width: 100%;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .t-desk {
+        display: block;
+    }
+
+    .t-mobile {
+        display: none;
+    }
 }
